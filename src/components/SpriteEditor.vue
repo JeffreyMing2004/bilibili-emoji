@@ -186,7 +186,7 @@ defineExpose({ loadFile })
 </script>
 
 <template>
-  <div class="panel sprite-panel">
+  <div id="editor" class="panel sprite-panel">
     <div class="sprite-head">
       <h2 class="sprite-title">✂ 多图合一</h2>
       <p class="sprite-sub">画师把多张表情放在一张大图上交付？放入整图，拖动底图用固定方框逐张截取</p>

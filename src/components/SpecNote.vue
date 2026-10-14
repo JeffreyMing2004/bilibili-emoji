@@ -3,7 +3,7 @@ import { PRESETS } from '../lib/presets'
 </script>
 
 <template>
-  <details class="specnote">
+  <details id="spec" class="specnote">
     <summary>规格说明 & 上传入口（点击展开）</summary>
     <div class="spec-body">
       <table>

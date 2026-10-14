@@ -23,6 +23,8 @@ let reprocessTimer = null
 
 const spriteRef = ref(null)
 
+const year = new Date().getFullYear()
+
 const currentPreset = computed(() => PRESETS.find(p => p.id === presetId.value))
 const doneCount = computed(() => items.value.filter(i => i.status === 'done').length)
 const okCount = computed(() => items.value.filter(i => i.status === 'done' && i.ok).length)
@@ -109,6 +111,12 @@ function openPreview(item) {
   previewItem.value = item
 }
 
+// 点击"规格说明"时展开折叠面板再滚动过去
+function openSpec() {
+  const spec = document.querySelector('#spec')
+  if (spec) spec.setAttribute('open', '')
+}
+
 function clearAll() {
   for (const item of items.value) {
     URL.revokeObjectURL(item.origUrl)
@@ -186,13 +194,27 @@ onBeforeUnmount(() => window.removeEventListener('paste', onPaste))
 
 <template>
   <div class="page">
-    <header class="hero">
-      <h1>B站表情包工坊</h1>
-      <p class="subtitle">
-        一键把任意图片转换成符合 <b>哔哩哔哩直播间表情包 / 充电专属表情包</b> 要求的尺寸与体积。
-        全程本地处理，图片不上传。
-      </p>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top" @click.prevent>
+          <span class="brand-logo">B</span>
+          <span class="brand-name">B站表情包工坊</span>
+          <span class="brand-sub">bilibili-emoji</span>
+        </a>
+        <nav class="site-nav">
+          <a href="#editor">多图合一</a>
+          <a href="#spec" @click="openSpec">规格说明</a>
+          <a href="https://github.com/JeffreyMing2004/bilibili-emoji" target="_blank" rel="noopener noreferrer">
+            GitHub ↗
+          </a>
+        </nav>
+      </div>
     </header>
+
+    <p class="lead">
+      把画师的 <b>多图合一整图</b> 一键截取、缩放压缩成符合 <b>哔哩哔哩直播间 / 充电专属表情包</b> 要求的尺寸与体积，
+      全程本地处理，图片不上传。
+    </p>
 
     <PresetPanel
       :preset-id="presetId"
@@ -242,7 +264,18 @@ onBeforeUnmount(() => window.removeEventListener('paste', onPaste))
     <SpecNote />
 
     <footer class="foot">
-      充电表情包上限 10 张，直播间表情以直播中心页面要求为准 · 遇到问题可截图反馈
+      <p>充电表情包上限 10 张，直播间表情以直播中心页面要求为准 · 遇到问题可截图反馈</p>
+      <p class="copy">
+        © {{ year }} JeffreyMing · B站表情包工坊 ·
+        <a href="https://github.com/JeffreyMing2004/bilibili-emoji" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </p>
+      <p class="disclaim">
+        本站为非官方粉丝自制工具，与哔哩哔哩官方无关；BILIBILI、哔哩哔哩及相关商标归其权利人所有。
+        请仅上传自己拥有版权或已获授权的表情素材。
+      </p>
+      <p class="icp">
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">吉ICP备2026010418号</a>
+      </p>
     </footer>
   </div>
 </template>
