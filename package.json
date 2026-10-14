@@ -1,0 +1,21 @@
+{
+  "name": "bilibili-emoji",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "B站直播间表情包 / 充电专属表情包 一键转换工具（纯前端本地处理）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "upng-js": "^2.1.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.3.5"
+  }
+}
