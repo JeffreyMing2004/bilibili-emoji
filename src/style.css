@@ -1,13 +1,20 @@
 :root {
+  /* 品牌色：B站粉 #FB7299 / B站蓝 #00AEEC（链接蓝 #00A1D6、用户名蓝 #23ADE5 见 pv-chat） */
   --bili-pink: #fb7299;
   --bili-pink-dark: #e45a85;
+  --bili-pink-light: #ffecf1; /* B站官方浅粉背景 */
   --bili-blue: #00aeec;
-  --ok: #2aca4e;
+  --bili-link: #00a1d6;
+  --bili-dark: #17171a; /* B站直播/深色面板 */
+  /* 语义色 */
+  --ok: #2ac864; /* B站绿 */
   --bad: #f25d8e;
+  --warn: #ff7f24; /* B站橙 */
+  /* 灰阶：与 B站前端一致的文字/背景三级灰 */
   --text: #18191c;
   --text-2: #61666d;
   --text-3: #9499a0;
-  --bg: #f6f7f8;
+  --bg: #f1f2f3; /* B站标准浅灰背景 */
   --card: #ffffff;
   --line: #e3e5e7;
   --radius: 12px;
@@ -37,7 +44,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #1b1b1f;
+  background: var(--bili-dark);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   margin: 0 -20px 20px;
   padding: 0 20px;
@@ -137,6 +144,7 @@ details[id] { scroll-margin-top: 72px; }
 .preset-card:hover { border-color: var(--bili-pink); }
 .preset-card.active {
   border-color: var(--bili-pink);
+  background: var(--bili-pink-light);
   box-shadow: 0 0 0 3px rgba(251, 114, 153, 0.15);
 }
 .preset-name { font-weight: 700; font-size: 16px; color: var(--text); }
@@ -236,7 +244,7 @@ details[id] { scroll-margin-top: 72px; }
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
-.sprite-empty:hover { border-color: var(--bili-pink); background: rgba(251, 114, 153, 0.04); }
+.sprite-empty:hover { border-color: var(--bili-pink); background: var(--bili-pink-light); }
 
 .sprite-wrap {
   position: relative;
@@ -342,7 +350,7 @@ details[id] { scroll-margin-top: 72px; }
 }
 .summary { margin: 0; font-size: 14px; color: var(--text-2); }
 .ok-text { color: var(--ok); font-weight: 600; }
-.warn-text { color: #f08900; font-weight: 600; }
+.warn-text { color: var(--warn); font-weight: 600; }
 .bar-actions { display: flex; gap: 10px; }
 
 .cards {
@@ -531,7 +539,7 @@ details[id] { scroll-margin-top: 72px; }
   font-size: 12px;
 }
 .card-center.ok { color: var(--ok); }
-.card-center.warn { color: #f08900; }
+.card-center.warn { color: var(--warn); }
 .center-tip { color: var(--text-3); }
 
 /* ---------- live-room preview modal ---------- */
@@ -562,7 +570,7 @@ details[id] { scroll-margin-top: 72px; }
 .pv-title { font-weight: 700; font-size: 15px; }
 
 .pv-chat {
-  background: #17171c;
+  background: var(--bili-dark);
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
@@ -639,7 +647,7 @@ details[id] { scroll-margin-top: 72px; }
 }
 .specnote th { background: #f6f7f8; color: var(--text-2); font-weight: 600; }
 .specnote ul { margin: 8px 0; padding-left: 20px; font-size: 13.5px; color: var(--text-2); }
-.specnote a { color: var(--bili-blue); }
+.specnote a { color: var(--bili-link); }
 .sources { font-size: 12.5px; color: var(--text-3); }
 .privacy { font-size: 13px; color: var(--ok); }
 
