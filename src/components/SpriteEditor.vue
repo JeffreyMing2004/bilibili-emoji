@@ -14,6 +14,23 @@ const frame = reactive({ size: 240, x: 0, y: 0 })
 const dragging = ref(false)
 const dragStart = { x: 0, y: 0, ox: 0, oy: 0 }
 
+// 非 PNG 底图提醒（B 站要求 PNG；JPEG 等无透明通道）
+const formatWarn = ref(null)
+const FORMAT_NAMES = {
+  'image/jpeg': 'JPEG',
+  'image/jpg': 'JPEG',
+  'image/webp': 'WebP',
+  'image/gif': 'GIF',
+  'image/bmp': 'BMP',
+  'image/avif': 'AVIF',
+  'image/svg+xml': 'SVG',
+}
+function detectFormatName(file) {
+  if (FORMAT_NAMES[file.type]) return FORMAT_NAMES[file.type]
+  const m = /\.([a-z0-9]+)$/i.exec(file.name)
+  return (m ? m[1] : file.type || '未知').toUpperCase()
+}
+
 const hasSheet = computed(() => !!sheet.file)
 const captureRectPx = computed(() => Math.round(frame.size / view.scale))
 const scalePct = computed(() => Math.round(view.scale * 100))
@@ -88,6 +105,9 @@ async function loadFile(file) {
     sheet.w = img.naturalWidth
     sheet.h = img.naturalHeight
     sheet.base = file.name.replace(/\.[^.]+$/, '').replace(/[\\/:*?"<>|]/g, '_')
+    if (file.type !== 'image/png' && !/\.png$/i.test(file.name)) {
+      formatWarn.value = { format: detectFormatName(file), name: file.name }
+    }
     await nextTick()
     layoutFrame()
     resetView()
@@ -242,6 +262,25 @@ defineExpose({ loadFile })
         <button type="button" class="btn primary" @click="capture">✂ 截取这张表情</button>
         <p class="sprite-hint">拖动底图对齐方框 · 滚轮缩放 · 方向键微调（Shift 大步）</p>
         <input ref="fileInputRef" type="file" accept="image/*" hidden @change="onFileChange" />
+      </div>
+
+      <!-- 非 PNG 格式提醒 -->
+      <div v-if="formatWarn" class="dlg-overlay" @click.self="formatWarn = null">
+        <div class="dlg-modal" role="alertdialog" aria-label="格式提醒">
+          <div class="dlg-icon">⚠️</div>
+          <h3 class="dlg-title">上传的不是 PNG 格式</h3>
+          <p class="dlg-body">
+            检测到格式：<b>{{ formatWarn.format }}</b>（{{ formatWarn.name }}）
+          </p>
+          <ul class="dlg-list">
+            <li>B 站直播间 / 充电表情包均要求 <b>PNG</b> 格式，本工具会自动把截取结果转成 PNG，可以直接使用；</li>
+            <li>但 JPEG / WebP 等格式<b>没有透明通道</b>，截出的表情会带着背景色，且画质可能有损；</li>
+            <li>建议向画师索取 <b>PNG 格式</b>的多合一整图，透明边缘和清晰度最好。</li>
+          </ul>
+          <div class="dlg-actions">
+            <button type="button" class="btn primary" @click="formatWarn = null">知道了，继续使用</button>
+          </div>
+        </div>
       </div>
     </template>
   </div>
